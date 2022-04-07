@@ -13,9 +13,11 @@
 # print(train.describe())
 # -------------------------------------
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from sklearn import tree
+from sklearn.tree import plot_tree
 
 
 # データフレームの欠損数を確認する関数
@@ -87,6 +89,13 @@ def decision_tree(train, test):
     max_depth = 10
     min_samples_split = 5
     my_tree = tree.DecisionTreeClassifier(max_depth=max_depth, min_samples_split=min_samples_split, random_state=1)
+
+    # # 決定木を可視化する
+    # plt.figure(figsize=(12, 12))
+    # clf = my_tree.fit(train, test)
+    # plot_tree(clf, feature_names=train.columns, filled=True, rounded=True)
+    # plt.show()
+
     
     # 決定木に目的変数と説明変数をセット
     my_tree = my_tree.fit(train_features, target)
@@ -98,7 +107,7 @@ def decision_tree(train, test):
     # 乗客IDを取得して､生存予想をセット
     PassengerId = np.array(test["PassengerId"]).astype(int)
     my_solution = pd.DataFrame(my_prediction, PassengerId, columns=["Survived"])
-    my_solution.to_csv("my_tree.csv", index_label=["PassengerId"])
+    my_solution.to_csv("kaggle/Titanic/output.csv", index_label=["PassengerId"])
 
 
 main()
